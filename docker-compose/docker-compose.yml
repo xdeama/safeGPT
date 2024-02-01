@@ -39,6 +39,8 @@ services:
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=conversationService
+    ports:
+      - "15432:5432"
     volumes:
       - postgres-conversationservice-data:/var/lib/postgresql/data
     healthcheck:
@@ -54,6 +56,8 @@ services:
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - discovery.type=single-node
       - xpack.security.enabled=false
+    ports:
+      - "19200:9200"
     healthcheck:
       test:
         - CMD
@@ -67,6 +71,8 @@ services:
     image: redis:7.2.3
     volumes:
       - redis-conversationservice-data:/data
+    ports:
+      - "16379:6379"
 
   webapp:
     image: webapp
@@ -107,6 +113,8 @@ services:
       - POSTGRES_USER=webApp
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "25432:5432"
     volumes:
       - postgres-webapp-data:/var/lib/postgresql/data
     healthcheck:
@@ -122,6 +130,8 @@ services:
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - discovery.type=single-node
       - xpack.security.enabled=false
+    ports:
+      - "29200:9200"
     healthcheck:
       test:
         - CMD
@@ -149,8 +159,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 2
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      #ports:
-      # - 9092:9092 # Uncomment to make Kafka available externally
+    ports:
+      - 9092:9092
     volumes:
       - kafka-secrets:/etc/kafka/secrets
       - kafka-data:/var/lib/kafka/data
@@ -204,6 +214,8 @@ services:
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=keycloak
+    ports:
+      - "35432:5432"
     volumes:
       - postgres-keycloak-data:/var/lib/postgresql/data
     healthcheck:

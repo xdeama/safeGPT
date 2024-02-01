@@ -9,6 +9,11 @@ jhipster jdl jhipster-config.jdl
 
 ## Build and run locally
 
+### Restore jHipster npm dependencies
+```zsh
+npm install
+```
+
 ### MacOS Apple Silicon
 
 #### Maven Docker Build
@@ -43,3 +48,21 @@ Alternatively, use browser options like:
 ```zsh
 chromium --host-resolver-rules="MAP keycloak localhost" http://localhost:8081
 ```
+
+### Run spring
+https://www.jhipster.tech/development/#working-with-angular
+```zsh
+./mvnw
+```
+runs default task: spring-boot:run
+
+### Run Angular with live reload (without webpack tasks)
+https://www.jhipster.tech/development/#working-with-angular
+```zsh
+./mvnw -P-webapp
+```
+executes npm start
+
+
+### Configure IDE
+https://www.jhipster.tech/configuring-ide-idea/
