@@ -1,0 +1,112 @@
+application {
+  config {
+    applicationType gateway
+    authenticationType oauth2
+    baseName webApp
+    buildTool maven
+    cacheProvider redis
+    clientFramework angular
+    clientTheme sandstone
+    clientThemeVariant primary
+    databaseType sql
+    devDatabaseType postgresql
+    enableHibernateCache true
+    enableSwaggerCodegen true
+    enableTranslation true
+    feignClient false
+    jhipsterVersion "8.1.0"
+    languages [en, de]
+    messageBroker kafka
+    microfrontend false
+    microfrontends []
+    nativeLanguage en
+    packageName de.dmalo.safegpt.app.web
+    prodDatabaseType postgresql
+    reactive false
+    searchEngine elasticsearch
+    serverPort 8080
+    serviceDiscoveryType consul
+    skipUserManagement true
+    testFrameworks [gatling, cucumber, cypress]
+    websocket false
+    withAdminUi true
+  }
+  entities *
+}
+
+application {
+  config {
+    applicationType microservice
+    authenticationType oauth2
+    baseName conversationService
+    buildTool maven
+    cacheProvider redis
+    clientFramework no
+    databaseType sql
+    devDatabaseType postgresql
+    enableHibernateCache true
+    enableSwaggerCodegen true
+    enableTranslation true
+    feignClient false
+    jhipsterVersion "8.1.0"
+    languages [en, de]
+    messageBroker kafka
+    microfrontends []
+    nativeLanguage en
+    packageName de.dmalo.safegpt.conversation
+    prodDatabaseType postgresql
+    reactive false
+    searchEngine elasticsearch
+    serverPort 8081
+    serviceDiscoveryType consul
+    skipClient true
+    skipUserManagement true
+    testFrameworks [protractor, gatling, cucumber]
+    websocket false
+  }
+  entities Message, Conversation, Provider, Actor
+}
+
+deployment {
+  deploymentType docker-compose
+  appsFolders [conversationService, webApp]
+  dockerRepositoryName "safegpt"
+}
+
+entity Message {
+  date Instant required
+  textContent String
+  imageContent ImageBlob
+}
+entity Conversation {
+  startDate Instant required
+}
+
+entity Provider {
+  name String required
+}
+
+entity Actor {
+  name String required
+}
+
+relationship OneToOne {
+  Conversation{provider} to Provider
+  Message{repsonse} to Message
+  Message{actor} to Actor
+}
+
+relationship OneToMany {
+  Message{conversation} to Conversation
+}
+
+
+dto * with mapstruct
+
+service all with serviceImpl
+
+paginate Conversation with infinite-scroll
+
+microservice Message, Conversation, Provider, Actor with conversationService
+
+search Message, Conversation with elasticsearch

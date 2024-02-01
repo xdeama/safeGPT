@@ -1,0 +1,37 @@
+{
+  "workspaces": {
+    "packages": [
+      "webApp",
+      "conversationService"
+    ]
+  },
+  "scripts": {
+    "backend:build-cache": "concurrently npm:backend:build-cache:webApp npm:backend:build-cache:conversationService",
+    "backend:build-cache:conversationService": "npm run backend:build-cache --workspace conversationService --if-present",
+    "backend:build-cache:webApp": "npm run backend:build-cache --workspace webApp --if-present",
+    "ci:backend:test": "npm run ci:backend:test --workspaces --if-present",
+    "ci:e2e:package": "npm run ci:docker:build --workspaces --if-present && npm run java:docker --workspaces --if-present",
+    "ci:e2e:prepare": "npm run docker-compose",
+    "ci:e2e:run": "npm run e2e:headless --workspaces --if-present",
+    "ci:e2e:teardown": "docker compose -f docker-compose/docker-compose.yml down -v",
+    "ci:frontend:test": "npm run ci:frontend:test --workspaces --if-present",
+    "docker-compose": "docker compose -f docker-compose/docker-compose.yml up --wait",
+    "java:docker": "concurrently npm:java:docker:webApp npm:java:docker:conversationService",
+    "java:docker:arm64": "concurrently npm:java:docker:arm64:webApp npm:java:docker:arm64:conversationService",
+    "java:docker:arm64:conversationService": "npm run java:docker:arm64 --workspace conversationService --if-present",
+    "java:docker:arm64:webApp": "npm run java:docker:arm64 --workspace webApp --if-present",
+    "java:docker:conversationService": "npm run java:docker --workspace conversationService --if-present",
+    "java:docker:webApp": "npm run java:docker --workspace webApp --if-present",
+    "watch": "concurrently npm:watch:webApp npm:watch:conversationService",
+    "watch:conversationService": "npm run watch --workspace conversationService --if-present",
+    "watch:webApp": "npm run watch --workspace webApp --if-present",
+    "webapp:test": "npm run webapp:test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "8.2.2",
+    "rxjs": "7.8.1"
+  },
+  "overrides": {
+    "webpack": "5.89.0"
+  }
+}

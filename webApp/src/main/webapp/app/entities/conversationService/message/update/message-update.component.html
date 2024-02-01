@@ -1,0 +1,161 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-message-heading"
+        data-cy="MessageCreateUpdateHeading"
+        jhiTranslate="webApp.conversationServiceMessage.home.createOrEditLabel"
+      >
+        Create or edit a Message
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="webApp.conversationServiceMessage.date" for="field_date">Date</label>
+          <div class="d-flex">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="datetime-local"
+              class="form-control"
+              name="date"
+              formControlName="date"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)) {
+            <div>
+              @if (editForm.get('date')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('date')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="webApp.conversationServiceMessage.textContent" for="field_textContent"
+            >Text Content</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="textContent"
+            id="field_textContent"
+            data-cy="textContent"
+            formControlName="textContent"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="webApp.conversationServiceMessage.imageContent" for="field_imageContent"
+            >Image Content</label
+          >
+          <div>
+            @if (editForm.get('imageContent')!.value) {
+              <img
+                [src]="'data:' + editForm.get('imageContentContentType')!.value + ';base64,' + editForm.get('imageContent')!.value"
+                style="max-height: 100px"
+                alt="message image"
+              />
+            }
+            @if (editForm.get('imageContent')!.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start"
+                  >{{ editForm.get('imageContentContentType')!.value }}, {{ byteSize(editForm.get('imageContent')!.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="clearInputImage('imageContent', 'imageContentContentType', 'file_imageContent')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_imageContent"
+              data-cy="imageContent"
+              (change)="setFileData($event, 'imageContent', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageContent"
+            id="field_imageContent"
+            data-cy="imageContent"
+            formControlName="imageContent"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageContentContentType"
+            id="field_imageContentContentType"
+            formControlName="imageContentContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="webApp.conversationServiceMessage.repsonse" for="field_repsonse">Repsonse</label>
+          <select
+            class="form-control"
+            id="field_repsonse"
+            data-cy="repsonse"
+            name="repsonse"
+            formControlName="repsonse"
+            [compareWith]="compareMessage"
+          >
+            <option [ngValue]="null"></option>
+            @for (messageOption of repsonsesCollection; track $index) {
+              <option [ngValue]="messageOption">{{ messageOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="webApp.conversationServiceMessage.actor" for="field_actor">Actor</label>
+          <select class="form-control" id="field_actor" data-cy="actor" name="actor" formControlName="actor" [compareWith]="compareActor">
+            <option [ngValue]="null"></option>
+            @for (actorOption of actorsCollection; track $index) {
+              <option [ngValue]="actorOption">{{ actorOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

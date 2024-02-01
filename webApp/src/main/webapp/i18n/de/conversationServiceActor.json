@@ -1,0 +1,29 @@
+{
+  "webApp": {
+    "conversationServiceActor": {
+      "home": {
+        "title": "Actors",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Actor erstellen",
+        "createOrEditLabel": "Actor erstellen oder bearbeiten",
+        "notFound": "Keine Actors gefunden"
+      },
+      "delete": {
+        "question": "Soll Actor {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Actor"
+      },
+      "id": "ID",
+      "name": "Name",
+      "message": "Message"
+    }
+  },
+  "conversationServiceApp": {
+    "conversationServiceActor": {
+      "created": "Actor erstellt mit ID {{ param }}",
+      "updated": "Actor aktualisiert mit ID {{ param }}",
+      "deleted": "Actor gelöscht mit ID {{ param }}"
+    }
+  }
+}

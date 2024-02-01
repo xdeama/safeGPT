@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20240201104034"
+  },
+  "applications": ["webApp", "conversationService"],
+  "clientRootFolder": "conversationService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "entityTableName": "conversation",
+  "fields": [
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "conversationService",
+  "name": "Conversation",
+  "pagination": "infinite-scroll",
+  "relationships": [
+    {
+      "otherEntityName": "provider",
+      "relationshipName": "provider",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "elasticsearch",
+  "service": "serviceImpl"
+}

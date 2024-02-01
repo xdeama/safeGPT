@@ -1,0 +1,50 @@
+{
+  "annotations": {
+    "changelogDate": "20240201103934"
+  },
+  "applications": ["webApp", "conversationService"],
+  "clientRootFolder": "conversationService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "entityTableName": "message",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "textContent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageContent",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "microserviceName": "conversationService",
+  "name": "Message",
+  "relationships": [
+    {
+      "otherEntityName": "message",
+      "relationshipName": "repsonse",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "actor",
+      "relationshipName": "actor",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "conversation",
+      "relationshipName": "conversation",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "elasticsearch",
+  "service": "serviceImpl"
+}

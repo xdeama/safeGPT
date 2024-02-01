@@ -1,0 +1,14 @@
+{
+  "generator-jhipster": {
+    "appsFolders": ["conversationService", "webApp"],
+    "clusteredDbApps": [],
+    "deploymentType": "docker-compose",
+    "directoryPath": "../",
+    "dockerRepositoryName": "safegpt",
+    "gatewayType": "SpringCloudGateway",
+    "jhipsterVersion": "8.1.0",
+    "jwtSecretKey": "NDFiYTlhOTczNGM5YTM4M2JmOTkzMjdhNjYyZTE0Mzc0Y2FmNGEyNWIyMWU2MGRhOTc0MGQxNGM0ZGY1ZGRjZjY2OTRjODc3ZTNmZDNmMTk5YjZkNDVmZDBiMjNlMWRhMjIwMw==",
+    "monitoring": "no",
+    "serviceDiscoveryType": "consul"
+  }
+}

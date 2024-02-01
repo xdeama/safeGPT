@@ -1,0 +1,29 @@
+{
+  "webApp": {
+    "conversationServiceProvider": {
+      "home": {
+        "title": "Providers",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Provider erstellen",
+        "createOrEditLabel": "Provider erstellen oder bearbeiten",
+        "notFound": "Keine Providers gefunden"
+      },
+      "delete": {
+        "question": "Soll Provider {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Provider"
+      },
+      "id": "ID",
+      "name": "Name",
+      "conversation": "Conversation"
+    }
+  },
+  "conversationServiceApp": {
+    "conversationServiceProvider": {
+      "created": "Provider erstellt mit ID {{ param }}",
+      "updated": "Provider aktualisiert mit ID {{ param }}",
+      "deleted": "Provider gelöscht mit ID {{ param }}"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "webApp": {
+    "conversationServiceConversation": {
+      "home": {
+        "title": "Conversations",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Conversation erstellen",
+        "createOrEditLabel": "Conversation erstellen oder bearbeiten",
+        "search": "Suche nach Conversation",
+        "notFound": "Keine Conversations gefunden"
+      },
+      "delete": {
+        "question": "Soll Conversation {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Conversation"
+      },
+      "id": "ID",
+      "startDate": "Start Date",
+      "provider": "Provider",
+      "message": "Message"
+    }
+  },
+  "conversationServiceApp": {
+    "conversationServiceConversation": {
+      "created": "Conversation erstellt mit ID {{ param }}",
+      "updated": "Conversation aktualisiert mit ID {{ param }}",
+      "deleted": "Conversation gelöscht mit ID {{ param }}"
+    }
+  }
+}

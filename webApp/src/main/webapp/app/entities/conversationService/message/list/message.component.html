@@ -1,0 +1,169 @@
+<div>
+  <h2 id="page-heading" data-cy="MessageHeading">
+    <span jhiTranslate="webApp.conversationServiceMessage.home.title">Messages</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="webApp.conversationServiceMessage.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-message"
+        [routerLink]="['/message/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span class="hidden-sm-down" jhiTranslate="webApp.conversationServiceMessage.home.createLabel">Create a new Message</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="searchForm" class="row row-cols-sm-auto align-items-center">
+    <div class="col-sm-12">
+      <div class="input-group w-100 mt-3">
+        <label class="visually-hidden" for="currentSearch" jhiTranslate="webApp.conversationServiceMessage.home.search"
+          >Search for Message</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="currentSearch"
+          id="currentSearch"
+          name="currentSearch"
+          placeholder="{{ 'webApp.conversationServiceMessage.home.search' | translate }}"
+        />
+
+        <button class="btn btn-info" (click)="search(currentSearch)">
+          <fa-icon icon="search"></fa-icon>
+        </button>
+
+        @if (currentSearch) {
+          <button class="btn btn-danger" (click)="search('')">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        }
+      </div>
+    </div>
+  </form>
+
+  @if (messages?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="webApp.conversationServiceMessage.home.notFound">No Messages found</span>
+    </div>
+  }
+
+  @if (messages && messages.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="date">
+              <div class="d-flex">
+                <span jhiTranslate="webApp.conversationServiceMessage.date">Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="textContent">
+              <div class="d-flex">
+                <span jhiTranslate="webApp.conversationServiceMessage.textContent">Text Content</span>
+                @if (!currentSearch) {
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                }
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imageContent">
+              <div class="d-flex">
+                <span jhiTranslate="webApp.conversationServiceMessage.imageContent">Image Content</span>
+                @if (!currentSearch) {
+                  <fa-icon class="p-1" icon="sort"></fa-icon>
+                }
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="repsonse.id">
+              <div class="d-flex">
+                <span jhiTranslate="webApp.conversationServiceMessage.repsonse">Repsonse</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="actor.id">
+              <div class="d-flex">
+                <span jhiTranslate="webApp.conversationServiceMessage.actor">Actor</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (message of messages; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/message', message.id, 'view']">{{ message.id }}</a>
+              </td>
+              <td>{{ message.date | formatMediumDatetime }}</td>
+              <td>{{ message.textContent }}</td>
+              <td>
+                @if (message.imageContent) {
+                  <a (click)="openFile(message.imageContent, message.imageContentContentType)">
+                    <img
+                      [src]="'data:' + message.imageContentContentType + ';base64,' + message.imageContent"
+                      style="max-height: 30px"
+                      alt="message image"
+                    />
+                  </a>
+                  <span>{{ message.imageContentContentType }}, {{ byteSize(message.imageContent) }}</span>
+                }
+              </td>
+              <td>
+                @if (message.repsonse) {
+                  <div>
+                    <a [routerLink]="['/message', message.repsonse.id, 'view']">{{ message.repsonse.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (message.actor) {
+                  <div>
+                    <a [routerLink]="['/actor', message.actor.id, 'view']">{{ message.actor.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/message', message.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/message', message.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(message)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

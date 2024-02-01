@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (conversation) {
+      <div>
+        <h2 data-cy="conversationDetailsHeading">
+          <span jhiTranslate="webApp.conversationServiceConversation.detail.title">Conversation</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ conversation.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="webApp.conversationServiceConversation.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ conversation.startDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="webApp.conversationServiceConversation.provider">Provider</span></dt>
+          <dd>
+            @if (conversation.provider) {
+              <div>
+                <a [routerLink]="['/provider', conversation.provider.id, 'view']">{{ conversation.provider.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="webApp.conversationServiceConversation.message">Message</span></dt>
+          <dd>
+            @if (conversation.message) {
+              <div>
+                <a [routerLink]="['/message', conversation.message.id, 'view']">{{ conversation.message.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/conversation', conversation.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

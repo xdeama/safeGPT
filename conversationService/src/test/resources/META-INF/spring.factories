@@ -1,0 +1,7 @@
+org.springframework.test.context.ContextCustomizerFactory = de.dmalo.safegpt.\
+    conversation.config.TestContainersSpringContextCustomizerFactory,de.dmalo.\
+    safegpt.conversation.config.\
+    SqlTestContainersSpringContextCustomizerFactory,de.dmalo.safegpt.\
+    conversation.config.KafkaTestContainersSpringContextCustomizerFactory,de.\
+    dmalo.safegpt.conversation.config.\
+    RedisTestContainersSpringContextCustomizerFactory

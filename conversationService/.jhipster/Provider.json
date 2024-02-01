@@ -1,0 +1,22 @@
+{
+  "annotations": {
+    "changelogDate": "20240201104134"
+  },
+  "applications": ["webApp", "conversationService"],
+  "clientRootFolder": "conversationService",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "entityTableName": "provider",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "conversationService",
+  "name": "Provider",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

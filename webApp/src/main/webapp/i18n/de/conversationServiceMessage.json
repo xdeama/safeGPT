@@ -1,0 +1,35 @@
+{
+  "webApp": {
+    "conversationServiceMessage": {
+      "home": {
+        "title": "Messages",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Message erstellen",
+        "createOrEditLabel": "Message erstellen oder bearbeiten",
+        "search": "Suche nach Message",
+        "notFound": "Keine Messages gefunden"
+      },
+      "delete": {
+        "question": "Soll Message {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Message"
+      },
+      "id": "ID",
+      "date": "Date",
+      "textContent": "Text Content",
+      "imageContent": "Image Content",
+      "repsonse": "Repsonse",
+      "actor": "Actor",
+      "conversation": "Conversation",
+      "message": "Message"
+    }
+  },
+  "conversationServiceApp": {
+    "conversationServiceMessage": {
+      "created": "Message erstellt mit ID {{ param }}",
+      "updated": "Message aktualisiert mit ID {{ param }}",
+      "deleted": "Message gelöscht mit ID {{ param }}"
+    }
+  }
+}
