@@ -5,7 +5,11 @@ A ChatGPT Gateway that applies custom filters before sending requests and keeps 
 This is a development preview without any kind of warranty. If you are using this in production, it's YOUR responsibility to thoroughly test and harden all services and infrastructure components.
 
 ## Generate Services with jHipster
+Design services and entities: https://start.jhipster.tech/design-entities
+Generate code:
+```zsh
 jhipster jdl jhipster-config.jdl
+```
 
 ## Build and run locally
 
