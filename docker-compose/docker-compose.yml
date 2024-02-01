@@ -7,8 +7,8 @@ services:
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_CLOUD_CONSUL_HOST=consul
       - SPRING_CLOUD_CONSUL_PORT=8500
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://conversationservice-postgresql:5432/conversationService
-      - SPRING_LIQUIBASE_URL=jdbc:postgresql://conversationservice-postgresql:5432/conversationService
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://conversationservice-postgresql:5432/conversationservice
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://conversationservice-postgresql:5432/conversationservice
       - JHIPSTER_CACHE_REDIS_SERVER=redis://conversationservice-redis:6379
       - JHIPSTER_CACHE_REDIS_CLUSTER=false
       - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:9080/realms/jhipster
@@ -38,6 +38,9 @@ services:
       - POSTGRES_USER=conversationService
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=conversationService
+    volumes:
+      - postgres-conversationservice-data:/var/lib/postgresql/data
     healthcheck:
       test:
         - CMD-SHELL
@@ -62,6 +65,8 @@ services:
       retries: 10
   conversationservice-redis:
     image: redis:7.2.3
+    volumes:
+      - redis-conversationservice-data:/data
 
   webapp:
     image: webapp
@@ -102,6 +107,8 @@ services:
       - POSTGRES_USER=webApp
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres-webapp-data:/var/lib/postgresql/data
     healthcheck:
       test:
         - CMD-SHELL
@@ -131,6 +138,10 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_SYNC_LIMIT: 2
+    volumes:
+      - zookepper-logs:/var/lib/zookeeper/log
+      - zookeeper-secrets:/etc/zookeeper/secrets
+      - zookeeper-data:/var/lib/zookeeper/data
   kafka:
     image: confluentinc/cp-kafka:7.5.2
     environment:
@@ -140,6 +151,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       #ports:
       # - 9092:9092 # Uncomment to make Kafka available externally
+    volumes:
+      - kafka-secrets:/etc/kafka/secrets
+      - kafka-data:/var/lib/kafka/data
   consul:
     image: docker.io/bitnami/consul:1.17.0
     ports:
@@ -169,6 +183,12 @@ services:
       - KC_HTTP_PORT=9080
       - KC_HTTPS_PORT=9443
       - KC_HEALTH_ENABLED=true
+      - DB_VENDOR=postgres
+      - DB_ADDR=keycloak-postgresql
+      - DB_PORT=5432
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=
     ports:
       - 9080:9080
       - 9443:9443
@@ -177,3 +197,31 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+  keycloak-postgresql:
+    image: postgres:16.1
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=keycloak
+    volumes:
+      - postgres-keycloak-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U $${POSTGRES_USER}
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-webapp-data:
+  postgres-conversationservice-data:
+  postgres-keycloak-data:
+  consul-data:
+  kafka-secrets:
+  kafka-data:
+  redis-conversationservice-data:
+  zookepper-logs:
+  zookeeper-secrets:
+  zookeeper-data:

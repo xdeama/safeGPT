@@ -7,21 +7,31 @@ This is a development preview without any kind of warranty. If you are using thi
 ## Generate Services with jHipster
 jhipster jdl jhipster-config.jdl
 
-### Build and run
-To generate the service Docker image(s), run:
-./mvnw -ntp -Pprod verify jib:dockerBuild -Djib-maven-plugin.architecture=arm64 in safeGPT/conversationService
-./mvnw -ntp -Pprod verify jib:dockerBuild -Djib-maven-plugin.architecture=arm64 in safeGPT/webApp
+## Build and run locally
 
+### MacOS Apple Silicon
+
+#### Maven Docker Build
+To generate the service Docker image(s), run:
+```zsh
+cd conversationService
+./mvnw -ntp -Pprod verify jib:dockerBuild -Djib-maven-plugin.architecture=arm64
+```
+
+```zsh
+cd webApp
+./mvnw -ntp -Pprod verify jib:dockerBuild -Djib-maven-plugin.architecture=arm64
+```
+
+#### Docker Infrastructure
 Launch all your infrastructure by running:
 
-```bash
+```zsh
 cd docker-compose
 docker compose -p safegpt up -d
 ```
-
-## Dev setup
-webApp: http://localhost:8081
-
+#### Open Web App
+Open webApp: http://localhost:8081
 
 Important: before you can use Keycloak, you have to add an entry in your etc/hosts:
 ```
@@ -30,6 +40,6 @@ Important: before you can use Keycloak, you have to add an entry in your etc/hos
 or else the redirection will not work for you. The reason for this is that Docker will use service names to reach services internally.
 
 Alternatively, use browser options like:
-```
-chromium --host-resolver-rules="MAP keycloak localhost"
+```zsh
+chromium --host-resolver-rules="MAP keycloak localhost" http://localhost:8081
 ```
